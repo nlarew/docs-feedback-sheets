@@ -8,7 +8,7 @@ import {
 export async function main() {
   // Initialize the sheet - doc ID is the long id in the sheets URL
   const doc = await getDocsFeedbackSpreadsheet();
-  const sheet = await getSheet(doc, { title: "All" });
+  const sheet = await getSheet(doc, { title: "Atlas Search" });
   await bulkProcessFeedback({ batchSize: 500 }, async (votes) => {
     await sheet.addRows(votes.map((vote) => mapVoteToRow(vote)));
   });

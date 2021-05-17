@@ -47,6 +47,8 @@ function getClient() {
   return client
 }
 
+const query: FilterQuery<NewWidgetVote> = { "page.docs_property": "cloud-docs", "page.slug": /atlas-search/ }
+
 export type ProcessFeedbackCallback = (vote: NewWidgetVote) => void | Promise<void>
 export type BulkProcessFeedbackCallback = (votes: NewWidgetVote[]) => void | Promise<void>
 export type BulkProcessOptions = {
@@ -58,7 +60,6 @@ export const bulkProcessFeedback = async (options: BulkProcessOptions = { batchS
     await client.connect()
     // perform actions on the collection object
     const collection = client.db("deluge").collection("newWidgetVotes");
-    const query: FilterQuery<NewWidgetVote> = {}
     const feedbackQuery: Cursor<NewWidgetVote> = collection.find(query);
     feedbackQuery.batchSize(options.batchSize)
 
@@ -93,7 +94,6 @@ export async function processFeedback(callback: ProcessFeedbackCallback, options
     await client.connect()
     // perform actions on the collection object
     const collection = client.db("deluge").collection("newWidgetVotes");
-    const query: FilterQuery<NewWidgetVote> = {}
     const feedbackQuery: Cursor<NewWidgetVote> = collection.find(query);
     if(options?.limit) {
       feedbackQuery.limit(options.limit)
